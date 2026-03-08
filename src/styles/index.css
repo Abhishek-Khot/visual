@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: #0a0a0f;
+  color: #e2e8f0;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── Glassmorphism ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+}
+
+/* ─── Node Glow ─── */
+.node-glow {
+  box-shadow: 0 0 20px var(--glow-color, rgba(34, 211, 238, 0.5));
+  transform: scale(1.02);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.node-dimmed {
+  opacity: 0.3;
+  filter: grayscale(0.4);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* ─── Animated Edges ─── */
+.react-flow__edge-path {
+  stroke-dasharray: 8 4;
+  animation: dashFlow 1.5s linear infinite;
+}
+
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+.edge-active {
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px var(--edge-color, rgba(34, 211, 238, 0.6)));
+}
+
+.edge-dimmed {
+  stroke-width: 1;
+  opacity: 0.15;
+}
+
+/* ─── Star Field Background ─── */
+.star-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--duration, 3s) ease-in-out infinite;
+  opacity: 0;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: var(--max-opacity, 0.7); }
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+/* ─── Code block ─── */
+.code-ref {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #94a3b8;
+}
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .react-flow__edge-path {
+    animation: none;
+  }
+  .star {
+    animation: none;
+    opacity: 0.3;
+  }
+}
+
+/* ─── React Flow Overrides ─── */
+.react-flow__background {
+  background: #0a0a0f !important;
+}
+
+.react-flow__controls {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+.react-flow__controls-button {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  fill: #94a3b8 !important;
+}
+
+.react-flow__controls-button:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ─── Masking Animation ─── */
+@keyframes maskReveal {
+  0% { filter: blur(0px); opacity: 1; }
+  30% { filter: blur(0px); opacity: 1; }
+  60% { filter: blur(8px); opacity: 0.6; }
+  100% { filter: blur(0px); opacity: 1; }
+}
+
+.mask-animate {
+  animation: maskReveal 1.2s ease-in-out forwards;
+}
+
+/* ─── Score Bar Colors ─── */
+.score-red { background: linear-gradient(90deg, #ef4444, #dc2626); }
+.score-yellow { background: linear-gradient(90deg, #eab308, #f59e0b); }
+.score-green { background: linear-gradient(90deg, #22c55e, #16a34a); }
+
+/* ─── Parallel Lane ─── */
+.lane-track {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+}
+
+/* ─── Terminal Style ─── */
+.terminal {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0d1117;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #c9d1d9;
+}
+
+.terminal .prompt {
+  color: #58a6ff;
+}
+
+.terminal .success {
+  color: #3fb950;
+}
+
+.terminal .warning {
+  color: #d29922;
+}
+
+.terminal .error-text {
+  color: #f85149;
+}
